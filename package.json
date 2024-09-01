@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^12.1.0",
-    "quantum-circuit": "^0.9.224"
+    "commander": "^12",
+    "bar": "file:../quantum-circuit"
   }
 }

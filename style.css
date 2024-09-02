@@ -3,8 +3,13 @@
 .quantum-circuit {
     margin-left: auto;
     margin-right: auto;
-    border: 1px;
+    border: 1px dotted;
     width: 798px;
     height: 500px;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
     /* background-color: bisque; */
 }

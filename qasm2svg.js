@@ -7,8 +7,8 @@ const SvgDisplayOptions = {
   embedded: false,
   cellWidth: 40,
   cellHeight: 40,
-  hSpacing: 28,
-  vSpacing: 34,
+  hSpacing: 20,
+  vSpacing: 24,
   blackboxPaddingX: 2,
   blackboxPaddingY: 2,
   blackboxLineColor: "black",
@@ -18,37 +18,42 @@ const SvgDisplayOptions = {
   gateSelectedLineColor: "black",
   cWireColor: "silver",
   cWireSelectedColor: "silver",
-  cArrowSize: 10,
+  cArrowSize: 16,
   hWireColor: "black",
   edWireColor: "black",
-  wireWidth: "1",
+  wireWidth: "3",
   wireTextHeight: 8,
   wireTextDown: 16,
   wireMargin: 20,
   wireLabelWidth: 40,
-  dotRadius: 5,
+  dotRadius: 8,
   paramTextHeight: 6,
   selectionPaddingX: 4,
   selectionPaddingY: 4,
   selectionLineColor: "#2185D0",
-  drawBlochSpheres: true,
+  drawBlochSpheres: false,
 };
 
 function main(qasm_string, output_file, config) {
   var circuit = new QuantumCircuit(9);
 
   circuit.importQASM(qasm_string, function (errors) {
-    console.log(`Error importing QASM file: ${errors}`);
-    return;
+    if (errors.length == 0) {
+      console.log(`Successfully parsed QASM file`);
+    } else {
+      console.error(`Error importing QASM data {qasm_string}\n: ${errors}`);
+      exit(1);
+    }
   });
 
-  let svg = circuit.exportSVG(false, config);
+  let svg = circuit.exportSVG(true, config);
 
   try {
     fs.writeFileSync(output_file, svg);
     console.log(`Successfully wrote SVG file to: ${output_file}`);
   } catch (err) {
     console.error(`Error writing SVG file to output: ${err}`);
+    exit(1);
   }
 }
 
@@ -64,8 +69,9 @@ const output = opts.output;
 const svg_opts = opts.svg_conf || SvgDisplayOptions;
 
 try {
-  const qasm = fs.readFileSync(input, "utf-8");
+  const qasm = fs.readFileSync(input, { encoding: "utf-8", flag: "r" });
   main(qasm, output, svg_opts);
 } catch (e) {
   console.error(`Error reading input file ${input}: ${e}`);
+  exit(1);
 }

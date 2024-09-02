@@ -1,8 +1,10 @@
+@import url("./qc-style.css");
+
 .quantum-circuit {
     margin-left: auto;
     margin-right: auto;
     border: 1px;
     width: 798px;
     height: 500px;
-    background-color: bisque;
+    /* background-color: bisque; */
 }
